@@ -1,10 +1,10 @@
 'use client';
 
 import { useState } from 'react';
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { toast } from "sonner"
-
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { toast } from "sonner";
+import * as z from "zod"; // Ensure zod is imported
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -12,36 +12,55 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
-import { User, Search, Menu } from "lucide-react"
+} from "@/components/ui/dropdown-menu";
+import { User, Search, Menu } from "lucide-react";
+
+// 1. Define the schema outside the component
+const formSchema = z.object({
+  roughIdea: z.string().min(5),
+  targetAudience: z.string().min(2),
+});
 
 export default function LandingPage() {
   const [roughIdea, setRoughIdea] = useState('');
   const [targetAudience, setTargetAudience] = useState('');
   const [loading, setLoading] = useState(false);
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  // 2. Corrected onSubmit function
+  async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     setLoading(true);
 
-    // Logic for n8n or API call would go here
-    console.log({ roughIdea, targetAudience });
+    const values = { roughIdea, targetAudience };
+    console.log("Sending to n8n:", values);
 
-    setTimeout(() => {
+    try {
+      const response = await fetch(process.env.NEXT_PUBLIC_N8N_PATH!, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(values),
+      });
+
+      if (response.ok) {
+        toast.success("Topic has been sent");
+        setRoughIdea('');
+        setTargetAudience('');
+      } else {
+        toast.error("Failed to send topic");
+      }
+    } catch (error) {
+      console.error(error);
+      toast.error("An error occurred");
+    } finally {
       setLoading(false);
-      // alert("Topic submitted successfully!");
-      toast.success("Bagang!")
-    }, 1500);
-  };
+    }
+  }
 
   return (
     <div className="min-h-screen flex flex-col font-sans bg-white selection:bg-[#FFD200] selection:text-black">
-
       {/* Navbar */}
       <nav className="fixed top-0 w-full z-50 px-8 py-6 flex items-center justify-between bg-white/80 backdrop-blur-md border-b border-slate-100">
         <div className="w-10 md:w-32"></div>
-
-        {/* Centered Logo */}
         <div className="flex-shrink-0">
           <img
             src="https://www.callboxinc.com/wp-content/themes/enfold-child/assets/images/callbox-logo-new.svg?x29465"
@@ -50,7 +69,6 @@ export default function LandingPage() {
           />
         </div>
 
-        {/* Right Aligned Navigation */}
         <div className="flex items-center justify-end w-10 md:w-32">
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
@@ -76,11 +94,9 @@ export default function LandingPage() {
 
       {/* Hero Section */}
       <main className="min-h-screen flex items-center justify-center pt-20 p-4 md:p-12 relative overflow-hidden">
-        {/* Subtle background decoration */}
         <div className="absolute inset-0 -z-10 bg-[radial-gradient(45%_45%_at_50%_50%,#FFD200_0%,white_100%)] opacity-10" />
 
         <div className="max-w-6xl w-full flex flex-col md:flex-row items-center gap-16 relative z-10">
-
           {/* Left Text */}
           <div className="w-full md:w-1/2 space-y-8 text-center md:text-left">
             <div className="inline-flex items-center rounded-full px-3 py-1 text-xs font-bold bg-[#FFD200]/10 text-[#e6bc00] ring-1 ring-inset ring-[#FFD200]/20">
@@ -92,7 +108,6 @@ export default function LandingPage() {
             </h1>
             <p className="text-slate-600 text-lg max-w-md mx-auto md:mx-0 leading-relaxed font-medium">
               Draft professional, creative, and engaging blog posts in seconds.
-              Simply choose a topic and let our AI handle the research and structure.
             </p>
 
             {/* Social Proof */}
@@ -106,7 +121,7 @@ export default function LandingPage() {
               </div>
               <div className="flex flex-col text-left">
                 <span className="text-sm font-bold text-slate-900">Joined by 2,000+ writers</span>
-                <span className="text-xs text-slate-500 font-medium">Top-rated on G2 and Capterra</span>
+                <span className="text-xs text-slate-500 font-medium">Top-rated on G2</span>
               </div>
             </div>
           </div>
@@ -114,21 +129,21 @@ export default function LandingPage() {
           {/* Form Card */}
           <div className="w-full md:w-[480px]">
             <div className="bg-white border border-slate-100 rounded-[2.5rem] p-8 md:p-12 shadow-[0_32px_64px_-16px_rgba(0,0,0,0.08)]">
-
               <div className="space-y-8">
                 <div className="space-y-2 text-center">
                   <h2 className="text-3xl font-bold text-slate-900 tracking-tight">Get Started</h2>
                   <p className="text-slate-500 text-sm font-medium">No credit card required.</p>
                 </div>
 
+                {/* 3. Link form to handleSubmit */}
                 <form onSubmit={handleSubmit} className="space-y-6">
                   <div className="space-y-2">
                     <label className="text-xs font-bold uppercase tracking-widest text-slate-500 ml-1">Rough Idea</label>
                     <Input
                       value={roughIdea}
                       onChange={(e) => setRoughIdea(e.target.value)}
-                      placeholder="e.g. The future of AI in logistics"
-                      className="bg-slate-50 border-slate-100 text-slate-900 h-14 rounded-2xl focus-visible:ring-[#FFD200] focus-visible:border-[#FFD200]"
+                      placeholder="e.g. The future of AI"
+                      className="bg-slate-50 border-slate-100 text-slate-900 h-14 rounded-2xl focus-visible:ring-[#FFD200]"
                       required
                     />
                   </div>
@@ -138,8 +153,8 @@ export default function LandingPage() {
                     <Input
                       value={targetAudience}
                       onChange={(e) => setTargetAudience(e.target.value)}
-                      placeholder="e.g. Small Business Owners"
-                      className="bg-slate-50 border-slate-100 text-slate-900 h-14 rounded-2xl focus-visible:ring-[#FFD200] focus-visible:border-[#FFD200]"
+                      placeholder="e.g. Business Owners"
+                      className="bg-slate-50 border-slate-100 text-slate-900 h-14 rounded-2xl focus-visible:ring-[#FFD200]"
                       required
                     />
                   </div>
@@ -147,15 +162,11 @@ export default function LandingPage() {
                   <Button
                     type="submit"
                     disabled={loading}
-                    className="w-full h-14 bg-slate-900 hover:bg-black text-white font-bold rounded-2xl shadow-lg transition-all hover:scale-[1.01] active:scale-[0.98]"
+                    className="w-full h-14 bg-slate-900 hover:bg-black text-white font-bold rounded-2xl shadow-lg transition-all"
                   >
-                    {loading ? "Generating..." : "Generate Post"}
+                    {loading ? "AI is writing..." : "Generate Post"}
                   </Button>
                 </form>
-
-                <p className="text-center text-[10px] text-slate-400 font-bold uppercase tracking-widest">
-                  Secure & Private Generation
-                </p>
               </div>
             </div>
           </div>

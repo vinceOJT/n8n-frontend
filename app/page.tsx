@@ -1,6 +1,22 @@
 'use client';
 
 import { useState } from 'react';
+import Link from 'next/link';
+import { Button } from "@/components/ui/button"
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuGroup,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuPortal,
+  DropdownMenuSeparator,
+  DropdownMenuShortcut,
+  DropdownMenuSub,
+  DropdownMenuSubContent,
+  DropdownMenuSubTrigger,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
 
 export default function N8nForm() {
   const [email, setEmail] = useState('');
@@ -31,12 +47,17 @@ export default function N8nForm() {
         onChange={(e) => setEmail(e.target.value)}
         placeholder="Enter email"
       />
-      <input
+      {/* <input
         type="name"
         value={name}
         onChange={(e) => setEname(e.target.value)}
         placeholder="Enter name"
-      />
+      /> */}
+      <Link href="/inputpage">
+          <Button variant="outline">
+            Create Rough Idea
+          </Button>
+        </Link>
       <button type="submit">Send to n8n</button>
     </form>
   );

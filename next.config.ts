@@ -5,7 +5,7 @@ const nextConfig: NextConfig = {
     return [
       {
         source: "/api/v1",
-        destination: "https://n8n.callboxinc.com/webhook-test/api/v1",
+        destination: "https://n8n.callboxinc.com/webhook/api/v1",
       }
     ]
   }

@@ -14,6 +14,7 @@ import {
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
+import { toast } from "sonner"
 
 // Define validation rules
 const formSchema = z.object({
@@ -33,16 +34,18 @@ export default function InputPage() {
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     console.log("Sending to n8n:", values)
-    
+
     // Replace with your actual n8n webhook URL
-    const response = await fetch('/api/v1', {
+    const response = await fetch(process.env.NEXT_PUBLIC_N8N_PATH!, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(values),
     })
 
     if (response.ok) {
-      alert("Success! Idea sent.")
+      // alert("Success! Idea sent.")
+      toast.success("Topic has been sent")
+
     }
   }
 
@@ -50,7 +53,7 @@ export default function InputPage() {
     <main className="flex min-h-screen items-center justify-center p-6 bg-background">
       <div className="w-full max-w-md p-8 border rounded-xl shadow-lg bg-card">
         <h1 className="text-2xl font-bold mb-6 text-center">Submit Your Idea</h1>
-        
+
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
             <FormField
@@ -60,10 +63,10 @@ export default function InputPage() {
                 <FormItem>
                   <FormLabel>Rough Idea</FormLabel>
                   <FormControl>
-                    <Textarea 
-                      placeholder="What is your concept?" 
+                    <Textarea
+                      placeholder="What is your concept?"
                       className="min-h-[100px]"
-                      {...field} 
+                      {...field}
                     />
                   </FormControl>
                   <FormMessage />

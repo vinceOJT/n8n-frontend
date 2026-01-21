@@ -46,10 +46,18 @@ export default function InputPage() {
       })
 
       if (response.ok) {
-        toast.success("Topic has been sent")
-        form.reset() 
-      } else {
-        toast.error("Failed to send topic")
+        // 1. Get the raw HTML string directly from n8n
+        const htmlResult = await response.text(); 
+        
+        // 2. Open a new window and 'write' the HTML into it
+        const newWindow = window.open('', '_blank');
+        if (newWindow) {
+          newWindow.document.write(htmlResult);
+          newWindow.document.close();
+        }
+        
+        toast.success("Blog Generated!");
+        form.reset();
       }
     } catch (error) {
       toast.error("An error occurred")

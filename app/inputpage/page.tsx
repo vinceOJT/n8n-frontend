@@ -47,15 +47,20 @@ export default function InputPage() {
 
       if (response.ok) {
         // 1. Get the raw HTML string directly from n8n
-        const htmlResult = await response.text(); 
-        
+        const htmlResult = await response.text();
+
         // 2. Open a new window and 'write' the HTML into it
-        const newWindow = window.open('', '_blank');
-        if (newWindow) {
-          newWindow.document.write(htmlResult);
-          newWindow.document.close();
-        }
-        
+        // const newWindow = window.open('', '_blank');
+        // if (newWindow) {
+        //   newWindow.document.write(htmlResult);
+        //   newWindow.document.close();
+        // }
+
+
+        const blob = new Blob([htmlResult], { type: 'text/html' });
+        const blobUrl = URL.createObjectURL(blob);
+        window.open(blobUrl, '_blank');
+
         toast.success("Blog Generated!");
         form.reset();
       }
@@ -67,15 +72,15 @@ export default function InputPage() {
 
   return (
     <div className="min-h-screen flex flex-col font-sans bg-white selection:bg-[#FFD200] selection:text-black">
-      
+
       {/* Navbar */}
       <nav className="fixed top-0 w-full z-50 px-8 py-6 flex items-center justify-between bg-white/80 backdrop-blur-md border-b border-slate-100 shadow-md">
         <div className="w-10 md:w-32"></div>
         <div className="flex-shrink-0 ">
-          <img 
+          <img
             src="https://www.callboxinc.com/wp-content/themes/enfold-child/assets/images/callbox-logo-new.svg?x29465"
-            alt="Callbox Logo" 
-            className="h-10 md:h-12 w-auto" 
+            alt="Callbox Logo"
+            className="h-10 md:h-12 w-auto"
           />
         </div>
         <div className="flex items-center justify-end w-10 md:w-32">
@@ -106,25 +111,25 @@ export default function InputPage() {
         <div className="absolute inset-0 -z-10 bg-[radial-gradient(45%_45%_at_50%_50%,#FFD200_0%,white_100%)] opacity-10" />
 
         <div className="max-w-6xl w-full flex flex-col md:flex-row items-center gap-16 relative z-10">
-          
+
           {/* Left Text */}
           <div className="w-full md:w-1/2 space-y-8 text-center md:text-left">
             <div className="inline-flex items-center rounded-full px-3 py-1 text-xs font-bold bg-[#FFD200]/10 text-[#e6bc00] ring-1 ring-inset ring-[#FFD200]/20">
               AI Blog Post Generator
             </div>
             <h1 className="text-5xl md:text-7xl font-extrabold leading-[1.1] tracking-tighter text-slate-900">
-              Turn your <span className="bg-gradient-to-r from-[#FFD200] to-[#f9a8d4] bg-clip-text text-transparent">ideas</span> <br /> 
+              Turn your <span className="bg-gradient-to-r from-[#FFD200] to-[#f9a8d4] bg-clip-text text-transparent">ideas</span> <br />
               into articles.
             </h1>
             <p className="text-slate-600 text-lg max-w-md mx-auto md:mx-0 leading-relaxed font-medium">
-              Draft professional, creative, and engaging blog posts in seconds. 
+              Draft professional, creative, and engaging blog posts in seconds.
             </p>
           </div>
 
           {/* Form Card */}
           <div className="w-full md:w-[480px]">
             <div className="bg-white border border-slate-100 rounded-[2.5rem] p-8 md:p-12 shadow-[0_16px_64px_-12px_rgba(0,0,0,0.4)]">
-              
+
               <div className="space-y-8">
                 <div className="space-y-2 text-center">
                   <h2 className="text-3xl font-bold text-slate-900 tracking-tight">Get Started</h2>
@@ -134,9 +139,9 @@ export default function InputPage() {
                 <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
                   <div className="space-y-2">
                     <label className="text-xs font-bold uppercase tracking-widest text-slate-500 ml-1">Rough Idea</label>
-                    <Input 
-                      {...form.register("roughIdea")} 
-                      placeholder="e.g. The future of AI in logistics" 
+                    <Input
+                      {...form.register("roughIdea")}
+                      placeholder="e.g. The future of AI in logistics"
                       className={`bg-slate-50 border-slate-100 text-slate-900 h-14 rounded-2xl focus-visible:ring-[#FFD200] focus-visible:border-[#FFD200] ${form.formState.errors.roughIdea ? 'border-red-500' : ''}`}
                     />
                     {form.formState.errors.roughIdea && (
@@ -146,9 +151,9 @@ export default function InputPage() {
 
                   <div className="space-y-2">
                     <label className="text-xs font-bold uppercase tracking-widest text-slate-500 ml-1">Target Audience</label>
-                    <Input 
-                      {...form.register("targetAudience")} 
-                      placeholder="e.g. Small Business Owners" 
+                    <Input
+                      {...form.register("targetAudience")}
+                      placeholder="e.g. Small Business Owners"
                       className={`bg-slate-50 border-slate-100 text-slate-900 h-14 rounded-2xl focus-visible:ring-[#FFD200] focus-visible:border-[#FFD200] ${form.formState.errors.targetAudience ? 'border-red-500' : ''}`}
                     />
                     {form.formState.errors.targetAudience && (
@@ -156,9 +161,9 @@ export default function InputPage() {
                     )}
                   </div>
 
-                  <Button 
+                  <Button
                     type="submit"
-                    disabled={isLoading} 
+                    disabled={isLoading}
                     className="w-full h-14 bg-slate-900 hover:bg-black text-white font-bold rounded-2xl shadow-lg transition-all hover:scale-[1.01] active:scale-[0.98]"
                   >
                     {isLoading ? (

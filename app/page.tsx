@@ -15,6 +15,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import InputPage from './inputpage/page';
+import NewInputPage from "./newInputPage/page";
 export default function N8nForm() {
   // const [email, setEmail] = useState('');
   // const [name, setEname] = useState('');
@@ -37,7 +38,8 @@ export default function N8nForm() {
   // };
 
   return (
-    <InputPage />
+    <NewInputPage />
+    // <InputPage />
     // <form onSubmit={handleSubmit}>
     //   <input
     //     type="email"

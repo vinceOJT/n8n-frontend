@@ -31,29 +31,27 @@ export default function InputPage() {
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     try {
-      console.log("Sending to n8n:", values)
-
       const response = await fetch(process.env.NEXT_PUBLIC_N8N_PATH!, {
-
-
-
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(values),
       })
 
       if (response.ok) {
-        // 1. Get the raw HTML string directly from n8n
-        const htmlResult = await response.text();
+        // Parse the JSON response from n8n
+        const data = await response.json();
 
-        // 2. Open a new window and 'write' the HTML into it
-        const newWindow = window.open('', '_blank');
-        if (newWindow) {
-          newWindow.document.write(htmlResult);
-          newWindow.document.close();
-        }
+        // Access the "url" property we defined in the Respond node
+        const generatedLink = data.url;
 
-        toast.success("Blog Generated!");
+        console.log("Success! Link received:", generatedLink);
+
+        // Notify the user without leaving the page
+        toast.success("Blog Generated!", {
+          description: `Your post is ready at: ${generatedLink}`,
+          duration: 10000, // Keep it visible longer so they can see the link
+        });
+
         form.reset();
       }
     } catch (error) {
@@ -61,7 +59,6 @@ export default function InputPage() {
       console.error(error)
     }
   };
-
 
 
 

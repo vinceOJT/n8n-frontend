@@ -1,5 +1,6 @@
 'use client';
 
+import { useState } from "react"; // Added for tracking the link
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import * as z from "zod"
@@ -7,16 +8,17 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { toast } from "sonner"
 import SliderLogos from "@/components/sliderlogos";
-import Image from "next/image";
+import { ExternalLink, Sparkles } from "lucide-react"; // Added icons
 
-// Keep existing validation rules
 const formSchema = z.object({
   roughIdea: z.string().min(5, "Idea must be at least 5 characters"),
   targetAudience: z.string().min(2, "Please specify an audience"),
 })
 
 export default function InputPage() {
-  // 1. Initialize the form with types
+  // 1. State to store the link returned by n8n
+  const [generatedUrl, setGeneratedUrl] = useState<string | null>(null);
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -27,10 +29,11 @@ export default function InputPage() {
 
   const isLoading = form.formState.isSubmitting;
 
-  // 2. Original onSubmit logic (unmodified)
-
+  // 2. Updated onSubmit to capture the URL
   async function onSubmit(values: z.infer<typeof formSchema>) {
     try {
+      setGeneratedUrl(null); // Reset link on new attempt
+
       const response = await fetch(process.env.NEXT_PUBLIC_N8N_PATH!, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -38,18 +41,13 @@ export default function InputPage() {
       })
 
       if (response.ok) {
-        // Parse the JSON response from n8n
         const data = await response.json();
+        const link = data.url;
 
-        // Access the "url" property we defined in the Respond node
-        const generatedLink = data.url;
+        setGeneratedUrl(link); // Save the link to state
 
-        console.log("Success! Link received:", generatedLink);
-
-        // Notify the user without leaving the page
         toast.success("Blog Generated!", {
-          description: `Your post is ready at: ${generatedLink}`,
-          duration: 10000, // Keep it visible longer so they can see the link
+          description: "Your post is ready to view.",
         });
 
         form.reset();
@@ -60,11 +58,6 @@ export default function InputPage() {
     }
   };
 
-
-
-
-
-
   return (
     <div className="h-screen flex flex-col font-sans bg-white selection:bg-[#FFD200] selection:text-black overflow-hidden">
       {/* Navbar */}
@@ -72,8 +65,6 @@ export default function InputPage() {
         <div className="w-10 md:w-32"></div>
         <div className="flex-shrink-0">
           <img
-            // src="https://www.callboxinc.com/wp-content/themes/enfold-child/assets/images/callbox-logo-new.svg?x29465"
-
             src="myimages/Rubik_Bubbles-removebg-preview.png"
             alt="Callbox Logo"
             className="h-15 md:h-40 w-auto"
@@ -82,11 +73,10 @@ export default function InputPage() {
         <div className="w-10 md:w-32"></div>
       </nav>
 
-      {/* Main Container - Changed to h-screen and flex-col */}
+      {/* Main Container */}
       <main className="flex-grow flex flex-col pt-20 relative overflow-hidden">
         <div className="absolute inset-0 -z-10 bg-[radial-gradient(45%_45%_at_50%_50%,#FFD200_0%,white_100%)] opacity-10" />
 
-        {/* Hero Content - Centered in the available space */}
         <div className="flex-grow flex items-center justify-center px-4 md:px-12">
           <div className="max-w-6xl w-full flex flex-col md:flex-row items-center gap-8 md:gap-16">
 
@@ -139,6 +129,20 @@ export default function InputPage() {
                     >
                       {isLoading ? "Generating..." : "Generate Post"}
                     </Button>
+
+                    {/* NEW: Action Button for Generated Link */}
+                    {generatedUrl && (
+                      <div className="pt-2 animate-in fade-in zoom-in-95 duration-500">
+                        <Button
+                          asChild
+                          className="w-full h-12 bg-[#FFD200] hover:bg-[#e6bc00] text-black font-bold rounded-xl shadow-md transition-all flex gap-2"
+                        >
+                          <a href={generatedUrl} target="_blank" rel="noopener noreferrer">
+                            View Your Blog <ExternalLink className="w-4 h-4" />
+                          </a>
+                        </Button>
+                      </div>
+                    )}
                   </form>
                 </div>
               </div>

@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { toast } from "sonner"
 import SliderLogos from "@/components/sliderlogos";
-import Image from "next/image";
+
 
 // Keep existing validation rules
 const formSchema = z.object({
@@ -36,10 +36,22 @@ export default function InputPage() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(values),
       })
+      // const response = {
+      //   ok: true,
+      //   type: 'basic',
+      //   url: "http://localhost:3000/api/v1",
+      //   redirected: false,
+      //   status: 200
+      // }
+
+      console.log(response);
+      console.log(`STATUS CODES FROM JSON ${response.status}`);
 
       if (response.ok) {
         // Parse the JSON response from n8n
         const data = await response.json();
+        // const data = await response;
+
 
         // Access the "url" property we defined in the Respond node
         const generatedLink = data.url;
@@ -48,14 +60,35 @@ export default function InputPage() {
 
         // Notify the user without leaving the page
         toast.success("Blog Generated!", {
-          description: `Your post is ready at: ${generatedLink}`,
+          className: "!bg-yellow-400 !text-white ",
+          position: "top-center",
+          description: "Your post is ready! click the yellow button to be redirected",
+          // description: `Your post is ready at: ${generatedLink}`,
           duration: 10000, // Keep it visible longer so they can see the link
         });
 
         form.reset();
+      } else {
+        // toast.error("Server side error status code:" + response.status)
+        toast("Server Error:", {
+          className: "!bg-red-400 !text-black ",
+          position: "top-center",
+          description: "Status Code Received: " + response.status,
+          // action: {
+
+          //   label: "Undo",
+          //   onClick: () => console.log("Undo"),
+          // },
+        },
+        )
       }
     } catch (error) {
-      toast.error("An error occurred")
+      toast.error("An error occurred: ", {
+        className: "!bg-red-400 !text-black ",
+        position: "top-center",
+        description: "Error type: " + error,
+
+      },)
       console.error(error)
     }
   };

@@ -47,14 +47,27 @@ export default function InputPage() {
         setGeneratedUrl(link); // Save the link to state
 
         toast.success("Blog Generated!", {
+          className: "!bg-yellow-400 !text-white ",
+          position: "top-center",
           description: "Your post is ready to view.",
         });
-
         form.reset();
+      } else {
+        toast("Server Error:", {
+          className: "!bg-red-400 !text-black ",
+          position: "top-center",
+          description: "Status Code Received: " + response.status,
+        },
+        )
       }
     } catch (error) {
-      toast.error("An error occurred")
-      console.error(error)
+      toast("Error Occured:", {
+        className: "!bg-red-400 !text-black ",
+        position: "top-center",
+        description: "Error Received: " + error,
+      },
+      ),
+        console.error(error)
     }
   };
 

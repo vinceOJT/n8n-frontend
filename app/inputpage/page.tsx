@@ -133,7 +133,7 @@ export default function InputPage() {
             </div>
 
             <h2 className="text-2xl font-bold text-green-700 text-center tracking-tight">
-              🚀 Success! Your Blog Has Been Created.
+              Success! Your Blog Has Been Created.
             </h2>
 
             <p className="text-sm text-slate-700 text-center max-w-xs">

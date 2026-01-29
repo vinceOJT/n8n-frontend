@@ -116,31 +116,46 @@ export default function InputPage() {
       {/* Success Overlay */}
       {generatedUrl && (
         <div className="fixed inset-0 z-[150] flex items-center justify-center bg-black/40 backdrop-blur-sm animate-fade-in">
-          <div className="bg-white backdrop-blur-md rounded-3xl p-10 flex flex-col items-center gap-6 max-w-sm w-full shadow-[0_10px_30px_rgba(0,0,0,0.15)] animate-scale-up">
+          <div className="bg-white/95 backdrop-blur-lg rounded-3xl p-10 flex flex-col items-center gap-8 max-w-sm w-full shadow-lg animate-scale-up">
+            
+            {/* Modern Icon */}
+            <div className="flex items-center justify-center w-16 h-16 rounded-full bg-green-100">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="w-10 h-10 text-green-600"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                strokeWidth={2}
+              >
+                <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+              </svg>
+            </div>
 
             <h2 className="text-2xl font-bold text-green-700 text-center tracking-tight">
-              🎉 Blog Generated!
+              🚀 Success! Your Blog Has Been Created.
             </h2>
 
             <p className="text-sm text-slate-700 text-center max-w-xs">
               Your blog is ready! Click below to view it.
             </p>
 
-            <div className="flex mt-4 w-full justify-center gap-3">
+            {/* Buttons */}
+            <div className="flex flex-col gap-4 w-full">
               <a
                 href={generatedUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="px-6 py-2 rounded-full font-semibold text-black bg-gradient-to-r from-[#FFD200] to-[#f9a8d4] hover:from-[#e6bc00] hover:to-[#f472b6] transition-all duration-200 shadow-md text-center"
+                className="w-full px-6 py-3 rounded-xl font-semibold text-white bg-gradient-to-r from-[#FFD200] to-[#f9a8d4] hover:from-[#e6bc00] hover:to-[#f472b6] transition-all duration-200 shadow-lg text-center text-sm"
               >
                 View Blog
               </a>
 
               <button
                 onClick={() => setGeneratedUrl(null)}
-                className="px-6 py-2 rounded-full font-semibold text-slate-900 bg-white border border-slate-200 hover:bg-slate-100 transition-all duration-200 shadow-sm"
+                className="w-full px-6 py-3 rounded-xl font-semibold text-slate-900 bg-white border border-slate-200 hover:bg-slate-100 transition-all duration-200 shadow-sm text-sm"
               >
-                Close
+                Generate Again
               </button>
             </div>
           </div>

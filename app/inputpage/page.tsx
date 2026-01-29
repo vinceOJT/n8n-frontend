@@ -1,4 +1,3 @@
-
 'use client';
 
 import { useState } from "react"; // Added for tracking the link
@@ -46,32 +45,16 @@ export default function InputPage() {
         const link = data.url;
 
         setGeneratedUrl(link); // Save the link to state
+
         toast.success("Blog Generated!", {
-          className: "!bg-green-400 !text-white ",
-          position: "top-center",
           description: "Your post is ready to view.",
         });
 
         form.reset();
-      } else {
-        // toast.error("Server side error status code:" + response.status)
-        toast("Server Error:", {
-          className: "!bg-red-400 !text-black ",
-          position: "top-center",
-          description: "Status Code Received: " + response.status,
-
-        },
-        )
       }
     } catch (error) {
-      toast("Error Occured:", {
-        className: "!bg-red-400 !text-black ",
-        position: "top-center",
-        description: "Error type: : " + error,
-
-      },
-      ),
-        console.error(error)
+      toast.error("An error occurred")
+      console.error(error)
     }
   };
 

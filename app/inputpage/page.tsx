@@ -39,6 +39,8 @@ export default function InputPage() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(values),
       })
+      console.log(response);
+      console.log(`STATUS CODES FROM JSON ${response.status}`);
 
       if (response.ok) {
         const data = await response.json();
@@ -47,13 +49,35 @@ export default function InputPage() {
         setGeneratedUrl(link); // Save the link to state
 
         toast.success("Blog Generated!", {
-          description: "Your post is ready to view.",
+          className: "!bg-yellow-400 !text-white ",
+          position: "top-center",
+          description: "Your post is ready! click the yellow button to be redirected",
+          // description: `Your post is ready at: ${generatedLink}`,
+          duration: 10000, // Keep it visible longer so they can see the link
         });
 
         form.reset();
+      } else {
+        // toast.error("Server side error status code:" + response.status)
+        toast("Server Error:", {
+          className: "!bg-red-400 !text-black ",
+          position: "top-center",
+          description: "Status Code Received: " + response.status,
+          // action: {
+
+          //   label: "Undo",
+          //   onClick: () => console.log("Undo"),
+          // },
+        },
+        )
       }
     } catch (error) {
-      toast.error("An error occurred")
+      toast.error("An error occurred: ", {
+        className: "!bg-red-400 !text-black ",
+        position: "top-center",
+        description: "Error type: " + error,
+
+      },)
       console.error(error)
     }
   };

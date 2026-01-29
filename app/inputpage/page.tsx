@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useState } from "react"; // Added for tracking the link
@@ -39,21 +40,16 @@ export default function InputPage() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(values),
       })
-      console.log(response);
-      console.log(`STATUS CODES FROM JSON ${response.status}`);
 
       if (response.ok) {
         const data = await response.json();
         const link = data.url;
 
         setGeneratedUrl(link); // Save the link to state
-
         toast.success("Blog Generated!", {
-          className: "!bg-yellow-400 !text-white ",
+          className: "!bg-green-400 !text-white ",
           position: "top-center",
-          description: "Your post is ready! click the yellow button to be redirected",
-          // description: `Your post is ready at: ${generatedLink}`,
-          duration: 10000, // Keep it visible longer so they can see the link
+          description: "Your post is ready to view.",
         });
 
         form.reset();
@@ -63,22 +59,19 @@ export default function InputPage() {
           className: "!bg-red-400 !text-black ",
           position: "top-center",
           description: "Status Code Received: " + response.status,
-          // action: {
 
-          //   label: "Undo",
-          //   onClick: () => console.log("Undo"),
-          // },
         },
         )
       }
     } catch (error) {
-      toast.error("An error occurred: ", {
+      toast("Error Occured:", {
         className: "!bg-red-400 !text-black ",
         position: "top-center",
-        description: "Error type: " + error,
+        description: "Error type: : " + error,
 
-      },)
-      console.error(error)
+      },
+      ),
+        console.error(error)
     }
   };
 

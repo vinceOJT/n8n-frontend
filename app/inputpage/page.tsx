@@ -1,67 +1,16 @@
 'use client';
 
-import { useState } from "react";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
-import * as z from "zod";
-
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import SliderLogos from "@/components/sliderlogos";
 import { Sparkles } from "lucide-react";
-
-/* Validation Schema */
-const formSchema = z.object({
-  roughIdea: z.string().min(5, "Idea must be at least 5 characters"),
-  targetAudience: z.string().min(2, "Please specify an audience"),
-});
+import submitlogic from "@/lib/submitlogic";
 
 export default function InputPage() {
-  const [generatedUrl, setGeneratedUrl] = useState<string | null>(null);
-  const [isGenerating, setIsGenerating] = useState(false);
-  const [showError, setShowError] = useState(false);
-  const [errorMessage, setErrorMessage] = useState<string>("");
+  // Custom hook, by sepearting the logic from the ui debugging will be much easier
+  // The hook can be 
+  const { form, onSubmit, generatedUrl, isGenerating, showError, errorMessage, setShowError, setGeneratedUrl } = submitlogic();
 
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
-    defaultValues: {
-      roughIdea: "",
-      targetAudience: "",
-    },
-  });
-
-  /* Submit Handler */
-  async function onSubmit(values: z.infer<typeof formSchema>) {
-    try {
-      setIsGenerating(true);
-      setGeneratedUrl(null);
-      setShowError(false);
-      setErrorMessage("");
-
-      const response = await fetch(process.env.NEXT_PUBLIC_N8N_PATH!, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(values),
-      });
-
-      if (!response.ok) {
-        const errorData = await response.json().catch(() => null);
-        const message = errorData?.message || `HTTP ${response.status} - ${response.statusText}`;
-        throw new Error(message);
-      }
-
-      const data = await response.json();
-
-      setGeneratedUrl(data.url);
-      form.reset();
-    } catch (error: any) {
-      console.error(error);
-      setErrorMessage(error.message || "An unexpected error occurred");
-      setShowError(true);
-    } finally {
-      setIsGenerating(false);
-    }
-  }
 
   return (
     <div className="h-screen flex flex-col bg-white overflow-hidden">
@@ -117,7 +66,7 @@ export default function InputPage() {
       {generatedUrl && (
         <div className="fixed inset-0 z-[150] flex items-center justify-center bg-black/40 backdrop-blur-sm animate-fade-in">
           <div className="bg-white/95 backdrop-blur-lg rounded-3xl p-10 flex flex-col items-center gap-8 max-w-sm w-full shadow-lg animate-scale-up">
-            
+
             {/* Modern Icon */}
             <div className="flex items-center justify-center w-16 h-16 rounded-full bg-green-100">
               <svg

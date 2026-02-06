@@ -5,6 +5,8 @@ import { Input } from "@/components/ui/input";
 import SliderLogos from "@/components/sliderlogos";
 import { Sparkles } from "lucide-react";
 import submitlogic from "@/lib/submitlogic";
+import { ChartPieDonutText } from "@/components/ui/chart-pie-donut-text";
+
 
 export default function InputPage() {
   // Custom hook, by sepearting the logic from the ui debugging will be much easier
@@ -132,7 +134,14 @@ export default function InputPage() {
           <div className="max-w-6xl w-full flex flex-col md:flex-row items-center gap-8 md:gap-16">
             {/* Left Text */}
             <div className="w-full md:w-1/2 space-y-6 text-center md:text-left">
-              <div className="inline-flex items-center rounded-full px-3 py-1 text-xs font-bold bg-[#FFD200]/10 text-[#e6bc00] ring-1 ring-inset ring-[#FFD200]/20">
+
+              <ChartPieDonutText />
+
+            </div>
+
+            {/* Form Card */}
+            <div className="w-full md:w-[550px]">
+              <div className="inline-flex items-center rounded-full py-1 text-xs font-bold bg-[#FFD200]/10 text-[#e6bc00] ring-1 ring-inset ring-[#FFD200]/20">
                 AI Blog Post Generator
               </div>
               <h1 className="text-4xl md:text-6xl lg:text-7xl font-extrabold leading-[1.1] tracking-tighter text-slate-900">
@@ -143,13 +152,10 @@ export default function InputPage() {
                 <br />
                 into articles.
               </h1>
-              <p className="text-slate-600 text-base md:text-lg max-w-md mx-auto md:mx-0">
+              {/* <p className="text-slate-600 text-base md:text-lg max-w-md mx-auto md:mx-0">
                 Draft professional, creative, and engaging blog posts in seconds.
-              </p>
-            </div>
+              </p> */}
 
-            {/* Form Card */}
-            <div className="w-full md:w-[450px]">
               <div className="bg-white border border-slate-100 rounded-[2rem] p-6 md:p-10 shadow-[0_16px_64px_-12px_rgba(0,0,0,0.2)]">
                 <div className="space-y-6">
                   <div className="text-center">

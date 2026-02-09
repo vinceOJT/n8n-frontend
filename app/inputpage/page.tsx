@@ -6,14 +6,15 @@ import SliderLogos from "@/components/sliderlogos";
 import { Sparkles } from "lucide-react";
 import submitlogic from "@/lib/submitlogic";
 import { ChartPieDonutText } from "@/components/ui/chart-pie-donut-text";
-import ShowDataSheet from "../chatsystem/page";
-
+import PieData from "@/lib/piedata";
+import { GetSheetsData } from "@/lib/readSheets";
 
 export default function InputPage() {
   // Custom hook, by sepearting the logic from the ui debugging will be much easier
   // The hook can be 
-  const { form, onSubmit, generatedUrl, isGenerating, showError, errorMessage, setShowError, setGeneratedUrl } = submitlogic();
-  // const data = getSheetsData();
+  const { form, onSubmit, generatedUrl, isGenerating, showError, setShowError, setGeneratedUrl } = submitlogic();
+  const { chartData } = PieData();
+
 
   return (
     <div className="h-screen flex flex-col bg-white overflow-hidden">
@@ -135,26 +136,13 @@ export default function InputPage() {
             {/* Left Text */}
             <div className="w-full md:w-1/2 space-y-6 text-center md:text-left">
 
-              <ChartPieDonutText />
-
+              <ChartPieDonutText data={chartData} />
             </div>
 
-            {/* <ShowDataSheet /> */}
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+            {/* <GetSheetsData /> */}
+            {/* Uncomment the code above to see if data is being passed from googlesheets to here and go to cmdline to see if its printing */}
 
 
 

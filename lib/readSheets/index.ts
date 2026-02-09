@@ -4,7 +4,7 @@ import { GoogleAuth } from 'google-auth-library';
 import { google } from 'googleapis';
 
 
-export const getSheetsData = async (): Promise<any> => {
+export const GetSheetsData = async (): Promise<any> => {
     try {
         const auth = new GoogleAuth({
             credentials: {
@@ -16,7 +16,7 @@ export const getSheetsData = async (): Promise<any> => {
         });
 
         const sheets = google.sheets({ version: "v4", auth });
-        const range = "Weekly Traffic - US!A:Z"; // Match your sheet name
+        const range = "TOTAL DATA!A:Z"; // Match your sheet name
 
 
         const response = await sheets.spreadsheets.values.get({
@@ -29,6 +29,7 @@ export const getSheetsData = async (): Promise<any> => {
             return [];
         }
         console.log("Sheet Data:", rows); // This prints the raw array of arrays to your terminal
+
 
         return rows; // Don't forget to return the data!
     } catch (error) {

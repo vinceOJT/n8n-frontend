@@ -1,4 +1,5 @@
 // app/chatsystem/page.tsx
+export const dynamic = 'force-dynamic';
 import React from 'react';
 import { getSheetsData } from '@/lib/readSheets';
 

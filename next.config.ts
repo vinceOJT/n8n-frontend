@@ -6,7 +6,7 @@ const nextConfig: NextConfig = {
     return [
       {
         source: process.env.NEXT_PUBLIC_N8N_PATH!,
-        destination: process.env.NEXT_PUBLIC_N8N_API!,
+        destination: process.env.NEXT_PUBLIC_N8N_PATH!,
       }
     ]
   }

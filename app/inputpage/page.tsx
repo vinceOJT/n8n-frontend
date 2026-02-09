@@ -6,13 +6,14 @@ import SliderLogos from "@/components/sliderlogos";
 import { Sparkles } from "lucide-react";
 import submitlogic from "@/lib/submitlogic";
 import { ChartPieDonutText } from "@/components/ui/chart-pie-donut-text";
+import ShowDataSheet from "../chatsystem/page";
 
 
 export default function InputPage() {
   // Custom hook, by sepearting the logic from the ui debugging will be much easier
   // The hook can be 
   const { form, onSubmit, generatedUrl, isGenerating, showError, errorMessage, setShowError, setGeneratedUrl } = submitlogic();
-
+  // const data = getSheetsData();
 
   return (
     <div className="h-screen flex flex-col bg-white overflow-hidden">
@@ -126,7 +127,6 @@ export default function InputPage() {
         <div className="w-10 md:w-32"></div>
       </nav>
 
-      {/* Main Content */}
       <main className={`flex-grow flex flex-col pt-20 transition-all ${isGenerating || showError || generatedUrl ? "blur-sm pointer-events-none" : ""}`}>
         <div className="absolute inset-0 -z-10 bg-[radial-gradient(45%_45%_at_50%_50%,#FFD200_0%,white_100%)] opacity-10" />
 
@@ -138,6 +138,25 @@ export default function InputPage() {
               <ChartPieDonutText />
 
             </div>
+
+            {/* <ShowDataSheet /> */}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
             {/* Form Card */}
             <div className="w-full md:w-[550px]">

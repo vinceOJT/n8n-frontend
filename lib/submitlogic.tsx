@@ -5,7 +5,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
 
-
 /* Validation Schema */
 const formSchema = z.object({
     roughIdea: z.string().min(5, "Idea must be at least 5 characters"),

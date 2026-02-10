@@ -5,8 +5,8 @@ const nextConfig: NextConfig = {
   async rewrites() {
     return [
       {
-        source: "/lead-gen/blogs", // can be anything is public anyway
-        destination: process.env.NEXT_PUBLIC_N8N_API!,
+        source: "/api/v1", // can be anything is public anyway
+        destination: process.env.N8N_API!,
       }
     ]
   }

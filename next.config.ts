@@ -6,7 +6,7 @@ const nextConfig: NextConfig = {
     return [
       {
         source: "/api/v1", // can be anything
-        destination: "https://n8n.callboxinc.com/webhook/api/v1",
+        destination: process.env.NEXT_PUBLIC_N8N_API || "",
       }
     ]
   }

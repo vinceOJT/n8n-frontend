@@ -19,7 +19,7 @@ import CustomNav from "@/components/customnav";
 type BubbleBackgroundDemoProps = {
   interactive: boolean;
 };
-export default function InputPage({ interactive }: BubbleBackgroundDemoProps) {
+export default function InputPage() {
   // Custom hook, by sepearting the logic from the ui debugging will be much easier
   // The hook can be 
   const { form, onSubmit, generatedUrl, isGenerating, showError, setShowError, setGeneratedUrl } = submitlogic();

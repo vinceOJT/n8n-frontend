@@ -95,25 +95,26 @@ export function ChartPieDonutText({ data }: ChartProps) {
     }, [data])
 
     return (
-        <Card className="flex flex-col">
+        <Card className="flex-grow bg-white border border-slate-100 rounded-[1rem] p-6 md:p-10 shadow-[0_16px_64px_-12px_rgba(0,0,0,0.2)] flex flex-col justify-center">
             <CardHeader className="items-center pb-0">
                 <CardTitle>Pie Chart - callblog website progress</CardTitle>
-                <CardDescription>January - Febuary 2026</CardDescription>
+                <CardDescription>January 2026 - Current</CardDescription>
             </CardHeader>
             <CardContent className="flex-1 pb-0">
-                <ChartContainer config={chartConfig} className="mx-auto aspect-square max-h-[250px]">
+                <ChartContainer config={chartConfig} className="mx-auto aspect-square max-h-[300px] bg-white">
 
                     <PieChart>
                         <ChartTooltip
                             cursor={false}
                             content={<ChartTooltipContent hideLabel />}
                         />
+
                         <Pie
                             data={data}
                             dataKey="visitors"
                             nameKey="browser"
                             innerRadius={60}
-                            strokeWidth={5}
+                            strokeWidth={10}
                         >
                             <Label
                                 content={({ viewBox }) => {
@@ -149,11 +150,11 @@ export function ChartPieDonutText({ data }: ChartProps) {
                 </ChartContainer>
             </CardContent>
             <CardFooter className="flex-col gap-2 text-sm">
-                <div className="flex items-center gap-2 leading-none font-medium">
-                    Trending up by 5.2% this month <TrendingUp className="h-4 w-4" />
+                <div className="flex items-center text-center gap-2 leading-none font-medium">
+                    This chart shows the total views from each country that has visiter our blogs
                 </div>
                 <div className="text-muted-foreground leading-none">
-                    Showing total visitors for the last 6 months
+                    Showing total visitors from start of project to current
                 </div>
             </CardFooter>
         </Card>

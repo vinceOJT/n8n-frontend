@@ -27,7 +27,7 @@ function SuccessReq({ urlGenerated, generateAgain }: SuccessReqProps) {
                 </div>
 
                 <h2 className="text-2xl font-bold text-green-700 text-center tracking-tight">
-                    Success! Your Blog Has Been Created.
+                    Success! Your Blog Has Been Created. Please wait a 1 minute or 2 if you want to generate again.
                 </h2>
 
                 <p className="text-sm text-slate-700 text-center max-w-xs">

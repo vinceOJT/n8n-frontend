@@ -4,7 +4,6 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { ChartPieDonutText } from "@/components/ui/chart-pie-donut-text";
-import { BubbleBackground } from "@/components/animate-ui/components/backgrounds/bubble";
 import { FlipWords } from "@/components/ui/flip-words";
 
 // custom components/logics
@@ -16,10 +15,9 @@ import FailedReq from "@/components/failed";
 import SuccessReq from "@/components/success";
 import CustomNav from "@/components/customnav";
 
-type BubbleBackgroundDemoProps = {
-  interactive: boolean;
-};
+
 export default function InputPage() {
+
   // Custom hook, by sepearting the logic from the ui debugging will be much easier
   // The hook can be 
   const { form, onSubmit, generatedUrl, isGenerating, showError, setShowError, setGeneratedUrl } = submitlogic();
@@ -29,7 +27,7 @@ export default function InputPage() {
 
   return (
 
-    <div className="h-screen flex flex-col bg-white overflow-hidden">
+    <div className="h-screen flex flex-col bg-white overflow-auto">
 
 
 

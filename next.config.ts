@@ -5,7 +5,7 @@ const nextConfig: NextConfig = {
   async rewrites() {
     return [
       {
-        source: "/api/v1", // can be anything
+        source: process.env.NEXT_PUBLIC_N8N_PATH || "", // can be anything
         destination: process.env.NEXT_PUBLIC_N8N_API || "",
       }
     ]

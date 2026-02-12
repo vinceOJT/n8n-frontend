@@ -5,8 +5,8 @@ const nextConfig: NextConfig = {
   async rewrites() {
     return [
       {
-        source: "/api/v1", // can be anything
-        destination: "https://n8n.callboxinc.com/webhook/api/v1",
+        source: process.env.NEXT_PUBLIC_N8N_PATH || "", // can be anything
+        destination: process.env.NEXT_PUBLIC_N8N_API || "",
       }
     ]
   }
